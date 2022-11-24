@@ -1,6 +1,25 @@
 # stocks-api
 
-## nodejs with typeorm and postgresDB
+## Description
+
+nodejs with typeorm and postgresDB
+
+</br>
+
+## Requeriments
+
+- postgres
+
+</br>
+
+## Installation
+
+```
+npm install
+npm run start:dev
+```
+
+the synchronize is on, so you do not need to run migrations.
 
 </br>
 
@@ -49,5 +68,6 @@ This endpoint return all stocks related with an user
 ### TODOs
 
 - auth
+- delete stock
 - unitesting
 - env file
