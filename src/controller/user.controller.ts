@@ -36,8 +36,22 @@ export const getUserStocks = async (req: Request, res: Response) => {
 
   const stocks = await Stock.find({
     relations: { user: true },
-    where: { user: { id: parseInt(id) } },
+    where: { user: { id: parseInt(id) }, isActive: true },
   });
 
   return res.json(stocks);
+};
+
+export const deleteStockFromUser = async (req: Request, res: Response) => {
+  const { currentUserId, stock } = req.body;
+
+  const user = await User.findOneBy({ id: currentUserId });
+
+  if (!user) res.status(404).json({ message: "user not found" });
+
+  const stockUpdated = await Stock.update(stock.id, stock);
+
+  if (!stockUpdated) res.status(404).json({ message: "stock not found" });
+
+  return res.json(stockUpdated);
 };

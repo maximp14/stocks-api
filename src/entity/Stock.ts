@@ -21,6 +21,9 @@ export class Stock extends BaseEntity {
   @Column()
   currency: string;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   @ManyToOne(() => User, (user) => user.stocks)
   user: User;
 }
