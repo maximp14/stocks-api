@@ -20,12 +20,15 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
+  @Column()
+  email: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Stock, (stock) => stock.name)
+  @OneToMany(() => Stock, (stock) => stock.name, { nullable: true })
   stocks: Stock[];
 }

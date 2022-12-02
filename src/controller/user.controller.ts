@@ -13,6 +13,21 @@ export const login = async (req: Request, res: Response) => {
   return res.json(user);
 };
 
+export const register = async (req: Request, res: Response) => {
+  const { username, password, email } = req.body;
+
+  const newUser = new User();
+
+  newUser.username = username;
+  //todo hash password
+  newUser.password = password;
+  newUser.email = email;
+
+  await newUser.save();
+
+  return res.json(newUser);
+};
+
 export const addStockToUser = async (req: Request, res: Response) => {
   const { symbol, currentUserId } = req.body;
   const user = await User.findOneBy({ id: currentUserId });
