@@ -1,26 +1,30 @@
 import { Stock } from "./../entity/Stock";
 import { User } from "./../entity/User";
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  const user = await User.findOneBy({ username: username });
+  let user: User | null = await User.findOneBy({ username: username });
 
-  if (!user || password !== user.password)
+  if (!user) {
     res.status(404).json({ message: "user not found" });
+  } else {
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid)
+      return res.status(404).json({ message: "invalid credentials" });
+  }
 
   return res.json(user);
 };
 
 export const register = async (req: Request, res: Response) => {
   const { username, password, email } = req.body;
-
   const newUser = new User();
 
   newUser.username = username;
-  //todo hash password
-  newUser.password = password;
+  newUser.password = await bcrypt.hash(password, 10);
   newUser.email = email;
 
   await newUser.save();
